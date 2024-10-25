@@ -35,8 +35,7 @@ jobs:
         push: true
         tags: |
           ghcr.io/${{ github.repository }}:latest
-          ghcr.io/${{ github.repository }}:${{ github.run_id }}
-          ghcr.io/${{ github.repository }}:$(date +'%Y%m%d')
+          ghcr.io/${{ github.repository }}:${{ github.sha }}
 
         labels: |
           org.opencontainers.image.source=${{ github.repository }}
