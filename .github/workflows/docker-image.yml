@@ -36,14 +36,9 @@ jobs:
         tags: |
           ghcr.io/${{ github.repository }}:latest
           ghcr.io/${{ github.repository }}:${{ github.run_id }}
+          ghcr.io/${{ github.repository }}:$(date +'%Y%m%d')
 
         labels: |
           org.opencontainers.image.source=${{ github.repository }}
           org.opencontainers.image.revision=${{ github.sha }}
           org.opencontainers.image.created=${{ github.event.created_at }}
-
-    - name: Tag with current date
-      run: |
-        DATE=$(date +'%Y%m%d')
-        docker tag ghcr.io/${{ github.repository }}:latest ghcr.io/${{ github.repository }}:$DATE
-        docker push ghcr.io/${{ github.repository }}:$DATE
