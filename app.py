@@ -1,9 +1,16 @@
 import json
 import sqlite3
-from flask import Flask, jsonify
 import os
+import logging
+from flask import Flask, jsonify
+
+logging.basicConfig(level=logging.WARNING)
 
 DEFAULT_PORT = 3000
+
+def create_directories():
+    os.makedirs("./config", exist_ok=True)
+    os.makedirs("./db", exist_ok=True)
 
 def load_config():
     try:
@@ -52,6 +59,7 @@ def get_counter(project, endpoint):
     return row[0] if row else 0
 
 app = Flask(__name__)
+create_directories()
 
 @app.route('/<path:subpath>/hit/<string:project>/<string:endpoint>', methods=['GET', 'POST'])
 @app.route('/hit/<string:project>/<string:endpoint>', methods=['GET', 'POST'])
@@ -68,5 +76,5 @@ def get(project, endpoint, subpath=""):
 if __name__ == "__main__":
     port = int(os.getenv("APIPORT") or load_config() or DEFAULT_PORT)
     init_db()
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port, debug=False)  # Debug auf False setzen
 
